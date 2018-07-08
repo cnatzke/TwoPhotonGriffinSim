@@ -68,8 +68,11 @@ EventAction::~EventAction() {
 
 void EventAction::BeginOfEventAction(const G4Event* evt) {  
 	fEvtNb = evt->GetEventID();
+    const G4int fNumEvents = G4RunManager::GetRunManager()->GetCurrentRun()->GetNumberOfEventToBeProcessed();
+
 	if(fEvtNb%fPrintModulo == 0) {
-		G4cout<<"---> Begin of event: "<<fEvtNb<<G4endl;
+        printf( " ---> Ev.# %5d :: %.2f %% \r", fEvtNb, 100.*G4double(fEvtNb)/G4double(fNumEvents));
+        G4cout.flush();
 	}
 
 	if(fHistoManager != nullptr) ClearVariables();

@@ -40,6 +40,8 @@
 #include "G4UserEventAction.hh"
 #include "globals.hh"
 #include "HistoManager.hh"
+#include "G4RunManager.hh"
+#include "G4Run.hh"
 
 #include "DetectorConstruction.hh" // for DetectorProperties
 
