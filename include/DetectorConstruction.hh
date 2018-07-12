@@ -123,6 +123,7 @@ public:
 	void AddApparatus8piVacuumChamber();
 	void AddApparatus8piVacuumChamberAuxMatShell(G4double thickness);
 	void AddApparatusGriffinStructure(G4int selector);
+    void AddApparatusSourceHolder(G4int position);
 
 	G4double GetWorldSizeX()           {return fWorldSizeX;};
 	G4double GetWorldSizeY()           {return fWorldSizeY;};

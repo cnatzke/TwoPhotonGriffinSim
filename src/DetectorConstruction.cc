@@ -89,6 +89,7 @@
 #include "Apparatus8piVacuumChamber.hh"
 #include "Apparatus8piVacuumChamberAuxMatShell.hh"
 #include "ApparatusGriffinStructure.hh"
+#include "ApparatusSourceHolder.hh"
 
 #include "DetectionSystemBox.hh" // New file
 #include "DetectionSystemGrid.hh"
@@ -399,6 +400,14 @@ void DetectorConstruction::AddApparatusGriffinStructure(G4int selector) {
 	pApparatusGriffinStructure->Build();
 
 	pApparatusGriffinStructure->Place(fLogicWorld, selector);
+}
+
+void DetectorConstruction::AddApparatusSourceHolder(G4int position) {
+    // Place source holder in position <position>
+    ApparatusSourceHolder *pApparatusSourceHolder = new ApparatusSourceHolder();
+    pApparatusSourceHolder->Build();
+
+    pApparatusSourceHolder->Place(fLogicWorld, position);
 }
 
 

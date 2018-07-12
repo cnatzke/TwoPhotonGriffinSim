@@ -97,6 +97,7 @@ private:
 	G4UIcmdWithoutParameter*   fAddApparatus8piVacuumChamberCmd;
 	G4UIcmdWithADoubleAndUnit* fAddApparatus8piVacuumChamberAuxMatShellCmd;
 	G4UIcmdWithAnInteger*      fAddApparatusGriffinStructureCmd;
+    G4UIcmdWithAnInteger*      fAddApparatusSourceHolderCmd;
 
 	G4UIcmdWithAString*         fAddBoxMatCmd;
 	G4UIcmdWithADoubleAndUnit*  fAddBoxThicknessCmd;

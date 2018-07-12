@@ -201,6 +201,10 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* Det)
 	fAddApparatusGriffinStructureCmd->SetGuidance("Add Griffin Structure");
 	fAddApparatusGriffinStructureCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
+    fAddApparatusSourceHolderCmd = new G4UIcmdWithAnInteger("/DetSys/app/addSourceHolder", this);
+    fAddApparatusSourceHolderCmd->SetGuidance("Add source holder in position <n>");
+    fAddApparatusSourceHolderCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
+
 	fUpdateCmd = new G4UIcmdWithoutParameter("/DetSys/det/update",this);
 	fUpdateCmd->SetGuidance("Update geometry.");
 	fUpdateCmd->SetGuidance("This command MUST be applied before \"beamOn\" ");
@@ -526,6 +530,9 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
 	if(command == fAddApparatusGriffinStructureCmd) {
 		fDetector->AddApparatusGriffinStructure(fAddApparatusGriffinStructureCmd->GetNewIntValue(newValue));
 	}
+    if(command == fAddApparatusSourceHolderCmd){
+        fDetector->AddApparatusSourceHolder(fAddApparatusSourceHolderCmd->GetNewIntValue(newValue));
+    }
 	//  if(command == fAddDetectionSystemGammaTrackingCmd) {
 	//    fDetector->AddDetectionSystemGammaTracking(fAddDetectionSystemGammaTrackingCmd->GetNewIntValue(newValue));
 	//  }
