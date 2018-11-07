@@ -76,6 +76,9 @@
 #include "G4OpRayleigh.hh"
 #include "G4Scintillation.hh"
 
+// for x-ray fluorescence
+#include "G4EmProcessOptions.hh"
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 PhysicsList::PhysicsList() :
@@ -152,6 +155,15 @@ void PhysicsList::ConstructProcess()
 		}
 	}
 	if(fHadPhysicsList) fHadPhysicsList->ConstructProcess();
+
+//// X-ray fluorescence options
+//    G4EmProcessOptions emOptions;                                                                                                                                                                                
+//    emOptions.SetBuildCSDARange(true);
+//    emOptions.SetDEDXBinningForCSDARange(10*10);
+//    emOptions.SetFluo(true);
+//    emOptions.SetAuger(true);
+//    emOptions.SetPIXE(true);
+
 	G4cout<<"### PhysicsList::ConstructProcess is done"<<G4endl;
 
 }

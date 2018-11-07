@@ -59,6 +59,9 @@ ApparatusSourceHolder::ApparatusSourceHolder() :
 
     //Defining Delrin plastic for sphere and support
     G4Material* delrin = nistMan->FindOrBuildMaterial("G4_POLYOXYMETHYLENE");
+    
+    //Test of elemental tungsten
+    G4Material* tung = nistMan->FindOrBuildMaterial("G4_W");
 
 /////////////////////////////////////////////////////////////////////
 // Defining physical parameters for geometries 
@@ -87,7 +90,9 @@ ApparatusSourceHolder::ApparatusSourceHolder() :
     fSmallCyclinderOuterRadius  = 0.315*2.54*cm;
 
     fPelletMaterial             = WC;
+    fPelletMaterial             = WC;
     fSphereMaterial             = delrin;
+//    fSphereMaterial             = WC;
     fSupportMaterial            = delrin;
     
     // Left over lengths from LaBr Detector file, 
