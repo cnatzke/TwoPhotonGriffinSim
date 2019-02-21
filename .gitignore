@@ -4,3 +4,4 @@ testXYZ.cc
 .DS_Store
 myBuild
 myData
+*.un~
