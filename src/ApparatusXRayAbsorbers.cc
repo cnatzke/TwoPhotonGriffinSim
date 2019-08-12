@@ -40,7 +40,7 @@ ApparatusXRayAbsorbers::ApparatusXRayAbsorbers(G4int suppSwitch) :
    // Check surfaces to determine any problematic overlaps. Turn this on to have Geant4 check the surfaces.
    // Do not leave this on, it will slow the DetectorConstruction process!
    // This was last check on August 8, 2019. - GOOD!
-   fSurfCheck = true;
+   fSurfCheck = false;
 
    /////////////////////////////////////////////////////////////////////
    // griffinCoords for GRIFFIN
