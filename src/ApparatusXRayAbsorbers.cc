@@ -23,13 +23,19 @@
 
 #include "G4SystemOfUnits.hh" // new version geant4.10 requires units
 
-ApparatusXRayAbsorbers::ApparatusXRayAbsorbers() :
+ApparatusXRayAbsorbers::ApparatusXRayAbsorbers(G4int suppSwitch) :
    // LogicalVolumes
    fAbsorber(0)
 {
    fSideLength = 82.0*mm; // length of absorber sides
    fInnerAbsorberThickness = 0.25*mm; // thickness of Cu and Sn layers
    fOuterAbsorberThickness = 0.1*mm; // thickness of Ta layer
+
+   fRadialDistance = 110*mm;
+
+   if (suppSwitch == 1){ // Peak to Total mode
+      fRadialDistance = 145*mm;
+   }
 
    // Check surfaces to determine any problematic overlaps. Turn this on to have Geant4 check the surfaces.
    // Do not leave this on, it will slow the DetectorConstruction process!
@@ -174,13 +180,15 @@ G4int ApparatusXRayAbsorbers::Place(G4LogicalVolume* expHallLog, G4int selector)
    G4int iAbsorber1 = 0;
    G4int iAbsorber2 = 15;
 
-   if(selector == 0) { // Full Absorbers
-      iAbsorber1 = 0;
-      iAbsorber2 = 15;
-   } else if(selector == 1) { // kept in for subset of absorbers (if needed)
-      // only build 1 
+   if(selector == 0) { // single absorber/debug mode
       iAbsorber1 = 0;
       iAbsorber2 = 0;
+   } else if(selector == 1) { // all absorbers
+      iAbsorber1 = 0;
+      iAbsorber2 = 15;
+   } else if(selector == 2) { // no upstream absorbers
+      iAbsorber1 = 0;
+      iAbsorber2 = 11;
    } 
 
   // loop over all pieces
@@ -202,8 +210,7 @@ G4int ApparatusXRayAbsorbers::Place(G4LogicalVolume* expHallLog, G4int selector)
 
       G4double x = 0;
       G4double y = 0;
-      G4double z = 11*cm; 
-      //G4double z = distFromOriginDet;
+      G4double z = fRadialDistance; 
 
       G4ThreeVector move(ApparatusXRayAbsorbers::TransX(x,y,z,theta,phi), ApparatusXRayAbsorbers::TransY(x,y,z,theta,phi), ApparatusXRayAbsorbers::TransZ(x,z,theta));
 

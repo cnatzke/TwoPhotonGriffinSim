@@ -416,7 +416,7 @@ void DetectorConstruction::AddApparatusSourceHolder(G4int position) {
 
 void DetectorConstruction::AddApparatusXRayAbsorbers(G4int selector) {
     // create Ta-Sn-Cu X-ray absorbers for face of clovers
-    ApparatusXRayAbsorbers *pApparatusXRayAbsorbers = new ApparatusXRayAbsorbers();
+    ApparatusXRayAbsorbers *pApparatusXRayAbsorbers = new ApparatusXRayAbsorbers(fExtensionSuppressorLocation);
     pApparatusXRayAbsorbers->Build();
 
     pApparatusXRayAbsorbers->Place(fLogicWorld, selector);

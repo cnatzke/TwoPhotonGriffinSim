@@ -48,7 +48,7 @@ class G4AssemblyVolume;
 class ApparatusXRayAbsorbers
 {
 public:
-    ApparatusXRayAbsorbers();
+    ApparatusXRayAbsorbers(G4int suppSwitch);
     ~ApparatusXRayAbsorbers();
 
     G4int Build();
@@ -83,6 +83,7 @@ private:
     G4double fInnerAbsorberThickness; // thickness of Cu and Sn layer
     G4double fOuterAbsorberThickness; // thickness of Ta layer
     G4double fSideLength; // x, y dimension of absorber
+    G4double fRadialDistance; // distance from origin to detector facing side of abs
 
     G4double fGriffinCoords[16][5];
 
