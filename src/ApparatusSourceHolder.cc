@@ -206,8 +206,10 @@ G4int ApparatusSourceHolder::Build() {
     // This was last check on July 26, 2017. - GOOD!
     fSurfCheck = false;
 
-    G4cout << "BuildPelletVolume" << G4endl;
-    BuildCeramicPelletVolume();
+    // Use this when simulating first source (pre July 2019)
+    //G4cout << "BuildPelletVolume" << G4endl;
+    //BuildCeramicPelletVolume();
+    
     G4cout << "BuildSourceSphereVolume" << G4endl;
     BuildSourceSphereVolume();
     G4cout << "BuildSourceSupportVolume" << G4endl;
@@ -215,43 +217,6 @@ G4int ApparatusSourceHolder::Build() {
 
     return 1;
 }
-
-//G4double ApparatusSourceHolder::GetR() {
-//    // to crystal face
-//
-//    G4double position = fSetRadialPos - (fPackingFrontLidThickness + fDiscFrontLidThickness + fCanFrontLidThickness - fCanBackLidThickness);
-//    return position;
-//}
-//
-//G4double ApparatusSourceHolder::GetTheta(G4int i) {
-//    // to crystal face
-//
-//    return fDetectorAngles[i][0]; //theta
-//}
-//
-//G4double ApparatusSourceHolder::GetPhi(G4int i) {
-//    // to crystal face
-//
-//    return fDetectorAngles[i][1]; //phi
-//}
-//
-//G4double ApparatusSourceHolder::GetYaw(G4int i) {
-//    // to crystal face
-//
-//    return fDetectorAngles[i][2]; //yaw
-//}
-//
-//G4double ApparatusSourceHolder::GetPitch(G4int i) {
-//    // to crystal face
-//
-//    return fDetectorAngles[i][3]; //pitch
-//}
-//
-//G4double ApparatusSourceHolder::GetRoll(G4int i) {
-//    // to crystal face
-//
-//    return fDetectorAngles[i][4]; //roll
-//}
 
 G4int ApparatusSourceHolder::Place(G4LogicalVolume* expHallLog, G4int detectorNumber) {
     G4int detectorCopyID = 0;
