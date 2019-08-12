@@ -88,12 +88,6 @@ private:
 
     G4bool fSurfCheck;
 
-    G4double fAirBoxBackLengthDet;
-    G4double fAirBoxFrontLengthDet;
-    G4double fNewRhombiRadiusDet;
-    G4double fShift;
-    G4double fAppliedBackShift;
-
 };
 
 #endif

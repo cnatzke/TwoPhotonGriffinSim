@@ -23,6 +23,112 @@
 
 #include "G4SystemOfUnits.hh" // new version geant4.10 requires units
 
+ApparatusXRayAbsorbers::ApparatusXRayAbsorbers() :
+   // LogicalVolumes
+   fAbsorber(0)
+{
+   fSideLength = 82.0*mm; // length of absorber sides
+   fInnerAbsorberThickness = 0.25*mm; // thickness of Cu and Sn layers
+   fOuterAbsorberThickness = 0.1*mm; // thickness of Ta layer
+
+   // Check surfaces to determine any problematic overlaps. Turn this on to have Geant4 check the surfaces.
+   // Do not leave this on, it will slow the DetectorConstruction process!
+   // This was last check on August 8, 2019. - GOOD!
+   fSurfCheck = true;
+
+   /////////////////////////////////////////////////////////////////////
+   // griffinCoords for GRIFFIN
+   // Note that the GRIFFIN lampshade angles are rotated by 45 degrees with respect to those of TIGRESS.
+   // Modified griffinCoords for TIGRESS are below!
+   /////////////////////////////////////////////////////////////////////
+   // theta
+   fGriffinCoords[0][0]    = 45.0*deg;
+   fGriffinCoords[1][0]    = 45.0*deg;
+   fGriffinCoords[2][0]    = 45.0*deg;
+   fGriffinCoords[3][0]    = 45.0*deg;
+   fGriffinCoords[4][0]    = 90.0*deg;
+   fGriffinCoords[5][0]    = 90.0*deg;
+   fGriffinCoords[6][0]    = 90.0*deg;
+   fGriffinCoords[7][0]    = 90.0*deg;
+   fGriffinCoords[8][0]    = 90.0*deg;
+   fGriffinCoords[9][0]    = 90.0*deg;
+   fGriffinCoords[10][0]   = 90.0*deg;
+   fGriffinCoords[11][0]   = 90.0*deg;
+   fGriffinCoords[12][0]   = 135.0*deg;
+   fGriffinCoords[13][0]   = 135.0*deg;
+   fGriffinCoords[14][0]   = 135.0*deg;
+   fGriffinCoords[15][0]   = 135.0*deg;
+   // phi
+   fGriffinCoords[0][1]    = 67.5*deg;
+   fGriffinCoords[1][1]    = 157.5*deg;
+   fGriffinCoords[2][1]    = 247.5*deg;
+   fGriffinCoords[3][1]    = 337.5*deg;
+   fGriffinCoords[4][1]    = 22.5*deg;
+   fGriffinCoords[5][1]    = 67.5*deg;
+   fGriffinCoords[6][1]    = 112.5*deg;
+   fGriffinCoords[7][1]    = 157.5*deg;
+   fGriffinCoords[8][1]    = 202.5*deg;
+   fGriffinCoords[9][1]    = 247.5*deg;
+   fGriffinCoords[10][1]   = 292.5*deg;
+   fGriffinCoords[11][1]   = 337.5*deg;
+   fGriffinCoords[12][1]   = 67.5*deg;
+   fGriffinCoords[13][1]   = 157.5*deg;
+   fGriffinCoords[14][1]   = 247.5*deg;
+   fGriffinCoords[15][1]   = 337.5*deg;
+   // yaw (alpha)
+   fGriffinCoords[0][2]    = 0.0*deg;
+   fGriffinCoords[1][2]    = 0.0*deg;
+   fGriffinCoords[2][2]    = 0.0*deg;
+   fGriffinCoords[3][2]    = 0.0*deg;
+   fGriffinCoords[4][2]    = 0.0*deg;
+   fGriffinCoords[5][2]    = 0.0*deg;
+   fGriffinCoords[6][2]    = 0.0*deg;
+   fGriffinCoords[7][2]    = 0.0*deg;
+   fGriffinCoords[8][2]    = 0.0*deg;
+   fGriffinCoords[9][2]    = 0.0*deg;
+   fGriffinCoords[10][2]   = 0.0*deg;
+   fGriffinCoords[11][2]   = 0.0*deg;
+   fGriffinCoords[12][2]   = 0.0*deg;
+   fGriffinCoords[13][2]   = 0.0*deg;
+   fGriffinCoords[14][2]   = 0.0*deg;
+   fGriffinCoords[15][2]   = 0.0*deg;
+   // pitch (beta)
+   fGriffinCoords[0][3]    = -45.0*deg;
+   fGriffinCoords[1][3]    = -45.0*deg;
+   fGriffinCoords[2][3]    = -45.0*deg;
+   fGriffinCoords[3][3]    = -45.0*deg;
+   fGriffinCoords[4][3]    = 0.0*deg;
+   fGriffinCoords[5][3]    = 0.0*deg;
+   fGriffinCoords[6][3]    = 0.0*deg;
+   fGriffinCoords[7][3]    = 0.0*deg;
+   fGriffinCoords[8][3]    = 0.0*deg;
+   fGriffinCoords[9][3]    = 0.0*deg;
+   fGriffinCoords[10][3]   = 0.0*deg;
+   fGriffinCoords[11][3]   = 0.0*deg;
+   fGriffinCoords[12][3]   = 45.0*deg;
+   fGriffinCoords[13][3]   = 45.0*deg;
+   fGriffinCoords[14][3]   = 45.0*deg;
+   fGriffinCoords[15][3]   = 45.0*deg;
+   // roll (gamma)
+   fGriffinCoords[0][4]    = 67.5*deg;
+   fGriffinCoords[1][4]    = 157.5*deg;
+   fGriffinCoords[2][4]    = 247.5*deg;
+   fGriffinCoords[3][4]    = 337.5*deg;
+   fGriffinCoords[4][4]    = 22.5*deg;
+   fGriffinCoords[5][4]    = 67.5*deg;
+   fGriffinCoords[6][4]    = 112.5*deg;
+   fGriffinCoords[7][4]    = 157.5*deg;
+   fGriffinCoords[8][4]    = 202.5*deg;
+   fGriffinCoords[9][4]    = 247.5*deg;
+   fGriffinCoords[10][4]   = 292.5*deg;
+   fGriffinCoords[11][4]   = 337.5*deg;
+   fGriffinCoords[12][4]   = 67.5*deg;
+   fGriffinCoords[13][4]   = 157.5*deg;
+   fGriffinCoords[14][4]   = 247.5*deg;
+   fGriffinCoords[15][4]   = 337.5*deg;
+
+}// end ::ApparatusXRayAbsorbers
+
 ApparatusXRayAbsorbers::~ApparatusXRayAbsorbers() {
    delete fAbsorber;
 }
@@ -94,18 +200,15 @@ G4int ApparatusXRayAbsorbers::Place(G4LogicalVolume* expHallLog, G4int selector)
       rotate->rotateY(beta);
       rotate->rotateZ(gamma);
 
-      G4double distFromOriginDet = fAirBoxBackLengthDet/2.0 +fAirBoxFrontLengthDet + fNewRhombiRadiusDet;
-
       G4double x = 0;
       G4double y = 0;
-      G4double z = distFromOriginDet;
+      G4double z = 11*cm; 
+      //G4double z = distFromOriginDet;
 
       G4ThreeVector move(ApparatusXRayAbsorbers::TransX(x,y,z,theta,phi), ApparatusXRayAbsorbers::TransY(x,y,z,theta,phi), ApparatusXRayAbsorbers::TransZ(x,z,theta));
-      G4ThreeVector moveFrontFace(fShift + fAppliedBackShift, 0, 0);
 
-      fAssemblyAbsorber->MakeImprint(expHallLog, moveFrontFace, rotate, 0, fSurfCheck);
-
-   }
+      fAssemblyAbsorber->MakeImprint(expHallLog, move, rotate, 0, fSurfCheck);
+   } // end postion loop
 
    return 1;
 }
@@ -204,8 +307,6 @@ G4int ApparatusXRayAbsorbers::BuildLayer3() {
 }
 
 G4Box* ApparatusXRayAbsorbers::AbsorberLayer(G4int selector) {
-
-   G4cout << "selector " << selector << G4endl;
 
    G4double halfLengthX = fSideLength/2.0; // half length of square side
    G4double halfLengthY  = halfLengthX;
