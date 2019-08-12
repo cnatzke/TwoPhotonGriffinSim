@@ -67,14 +67,20 @@ private:
 
     // Logical volumes
     G4LogicalVolume* fCeramicPelletLog;
-    G4LogicalVolume* fDelrinSphereLog;
-    G4LogicalVolume* fDelrinSupportLog;
+    G4LogicalVolume* fSourceSphereLog;
+    G4LogicalVolume* fSourceSupportLog;
 
     // Assembly volumes
     G4AssemblyVolume* fAssembly;
 
     // Surface Check
     G4bool fSurfCheck;
+
+    // Solid Volumes
+    G4Sphere* sourceSphere;
+    G4Tubs* cyc;
+    G4SubtractionSolid* delSphere;
+
 
     // Parameters 
 
@@ -133,14 +139,14 @@ private:
     G4double fSetRadialPos;
 
     G4Tubs* BuildCeramicPellet();
-    G4Sphere* BuildDelrinSphere();
-    G4Tubs* BuildLargeDelrinCyclinder();
-    G4Tubs* BuildMediumDelrinCyclinder();
-    G4Tubs* BuildSmallDelrinCyclinder();
+    G4Sphere* BuildSourceSphere();
+    G4Tubs* BuildLargeSourceCyclinder();
+    G4Tubs* BuildMediumSourceCyclinder();
+    G4Tubs* BuildSmallSourceCyclinder();
     
     G4int BuildCeramicPelletVolume();
-    G4int BuildDelrinSphereVolume();
-    G4int BuildDelrinSupportVolume();
+    G4int BuildSourceSphereVolume();
+    G4int BuildSourceSupportVolume();
 
     G4ThreeVector GetDirectionXYZ(G4double theta, G4double phi);
 };

@@ -241,6 +241,7 @@ private:
     G4int fGermaniumSelector;
     G4int fCanSelector;
     G4int fBGOSelector;
+    G4int fXRayAbsorberSelector;
     G4int fColdFingerSelector;
 
     //Redacted parameters/////////////

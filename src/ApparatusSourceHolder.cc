@@ -31,15 +31,15 @@
 ApparatusSourceHolder::ApparatusSourceHolder() :
     // LogicalVolumes
     fCeramicPelletLog(0),
-    fDelrinSphereLog(0),
-    fDelrinSupportLog(0)
+    fSourceSphereLog(0),
+    fSourceSupportLog(0)
 {
 
 /////////////////////////////////////////////////////////////////////
 // Defining materials 
 /////////////////////////////////////////////////////////////////////
     
-    //instancing G4NistManager
+    // instancing G4NistManager
     nistMan = G4NistManager::Instance();
     nistMan->SetVerbose(0);
 
@@ -57,11 +57,19 @@ ApparatusSourceHolder::ApparatusSourceHolder() :
     elements.clear();
     natoms.clear();
 
-    //Defining Delrin plastic for sphere and support
+    // Defining Peek for sphere
+    elements.push_back("C");    natoms.push_back(19);
+    elements.push_back("H");    natoms.push_back(12);
+    elements.push_back("O");    natoms.push_back(3);
+
+    density = 1.31 * g/cm3;
+    G4Material* Peek = nistMan->ConstructNewMaterial("Peek", elements, natoms, density);
+
+    elements.clear();
+    natoms.clear();
+
+    // defining Source plastic for support structure
     G4Material* delrin = nistMan->FindOrBuildMaterial("G4_POLYOXYMETHYLENE");
-    
-    //Test of elemental tungsten
-    G4Material* tung = nistMan->FindOrBuildMaterial("G4_W");
 
 /////////////////////////////////////////////////////////////////////
 // Defining physical parameters for geometries 
@@ -90,32 +98,30 @@ ApparatusSourceHolder::ApparatusSourceHolder() :
     fSmallCyclinderOuterRadius  = 0.315*2.54*cm;
 
     fPelletMaterial             = WC;
-    fPelletMaterial             = WC;
-    fSphereMaterial             = delrin;
-//    fSphereMaterial             = WC;
+    fSphereMaterial             = Peek;
     fSupportMaterial            = delrin;
     
     // Left over lengths from LaBr Detector file, 
     // leaving in because some are used for placing the source holder
     
     fCrystalLengthZ            = 2.0*2.54*cm;
-    fCrystalOuterRadius 		  = 1.0*2.54*cm;
+    fCrystalOuterRadius         = 1.0*2.54*cm;
 
     fPackingLengthZ            = fCrystalLengthZ;
-    fPackingInnerRadius 		  = fCrystalOuterRadius;
-    fPackingOuterRadius 		  = 0.0625*2.54*cm + fCrystalOuterRadius;
+    fPackingInnerRadius         = fCrystalOuterRadius;
+    fPackingOuterRadius         = 0.0625*2.54*cm + fCrystalOuterRadius;
 
     fPackingLidInnerRadius    = 0.0*cm;
-    fPackingLidOuterRadius 	  = fPackingOuterRadius;
+    fPackingLidOuterRadius      = fPackingOuterRadius;
     fPackingFrontLidThickness = 0.0625*2.54*cm;
 
     fDiscLidInnerRadius       = 0.0*cm;
     fDiscLidOuterRadius       = fPackingLidOuterRadius;
-    fDiscFrontLidThickness	= 0.006*2.54*cm;
+    fDiscFrontLidThickness = 0.006*2.54*cm;
 
     fSealLidInnerRadius       = 0.0*cm;
     fSealLidOuterRadius       = fPackingLidOuterRadius;
-    fSealFrontLidThickness	  = 0.04*2.54*cm;
+    fSealFrontLidThickness   = 0.04*2.54*cm;
 
     fCanLengthZ                = fCrystalLengthZ + fPackingFrontLidThickness + fDiscFrontLidThickness + fSealFrontLidThickness;
     fCanInnerRadius            = fPackingOuterRadius;
@@ -133,61 +139,61 @@ ApparatusSourceHolder::ApparatusSourceHolder() :
             fSealFrontLidThickness +
             fCanFrontLidThickness +
             fCanBackLidThickness;
-	  //G4double triangleThetaAngle = (180/M_PI)*(atan((1/sqrt(3))/sqrt((11/12) + (1/sqrt(2))) )+atan((sqrt(2))/(1+sqrt(2))))*deg;
-	  G4double triangleThetaAngle = 54.735610317245360*deg;
+     //G4double triangleThetaAngle = (180/M_PI)*(atan((1/sqrt(3))/sqrt((11/12) + (1/sqrt(2))) )+atan((sqrt(2))/(1+sqrt(2))))*deg;
+     G4double triangleThetaAngle = 54.735610317245360*deg;
 
-	  // theta
-	  fDetectorAngles[0][0] 	= triangleThetaAngle;
-	  fDetectorAngles[1][0] 	= triangleThetaAngle;
-	  fDetectorAngles[2][0] 	= triangleThetaAngle;
-	  fDetectorAngles[3][0] 	= triangleThetaAngle;
-	  fDetectorAngles[4][0] 	= 180.0*deg - triangleThetaAngle;
-	  fDetectorAngles[5][0] 	= 180.0*deg - triangleThetaAngle;
-	  fDetectorAngles[6][0] 	= 180.0*deg - triangleThetaAngle;
-	  fDetectorAngles[7][0] 	= 180.0*deg - triangleThetaAngle;
-	  // phi
-	  fDetectorAngles[0][1] 	= 22.5*deg;
-	  fDetectorAngles[1][1] 	= 112.5*deg;
-	  fDetectorAngles[2][1] 	= 202.5*deg;
-	  fDetectorAngles[3][1] 	= 292.5*deg;
-	  fDetectorAngles[4][1] 	= 22.5*deg;
-	  fDetectorAngles[5][1] 	= 112.5*deg;
-	  fDetectorAngles[6][1] 	= 202.5*deg;
-	  fDetectorAngles[7][1] 	= 292.5*deg;
-	  // yaw (alpha)
-	  fDetectorAngles[0][2] 	= 0.0*deg;
-	  fDetectorAngles[1][2] 	= 0.0*deg;
-	  fDetectorAngles[2][2] 	= 0.0*deg;
-	  fDetectorAngles[3][2] 	= 0.0*deg;
-	  fDetectorAngles[4][2] 	= 0.0*deg;
-	  fDetectorAngles[5][2] 	= 0.0*deg;
-	  fDetectorAngles[6][2] 	= 0.0*deg;
-	  fDetectorAngles[7][2] 	= 0.0*deg;
-	  // pitch (beta)
-	  fDetectorAngles[0][3] 	= triangleThetaAngle;
-	  fDetectorAngles[1][3] 	= triangleThetaAngle;
-	  fDetectorAngles[2][3] 	= triangleThetaAngle;
-	  fDetectorAngles[3][3] 	= triangleThetaAngle;
-	  fDetectorAngles[4][3] 	= 180.0*deg - triangleThetaAngle;
-	  fDetectorAngles[5][3] 	= 180.0*deg - triangleThetaAngle;
-	  fDetectorAngles[6][3] 	= 180.0*deg - triangleThetaAngle;
-	  fDetectorAngles[7][3] 	= 180.0*deg - triangleThetaAngle;
-	  // roll (gamma)
-	  fDetectorAngles[0][4] 	= 22.5*deg;
-	  fDetectorAngles[1][4] 	= 112.5*deg;
-	  fDetectorAngles[2][4] 	= 202.5*deg;
-	  fDetectorAngles[3][4] 	= 292.5*deg;
-	  fDetectorAngles[4][4] 	= 22.5*deg;
-	  fDetectorAngles[5][4] 	= 112.5*deg;
-	  fDetectorAngles[6][4] 	= 202.5*deg;
-	  fDetectorAngles[7][4] 	= 292.5*deg;
+     // theta
+     fDetectorAngles[0][0]    = triangleThetaAngle;
+     fDetectorAngles[1][0]    = triangleThetaAngle;
+     fDetectorAngles[2][0]    = triangleThetaAngle;
+     fDetectorAngles[3][0]    = triangleThetaAngle;
+     fDetectorAngles[4][0]    = 180.0*deg - triangleThetaAngle;
+     fDetectorAngles[5][0]    = 180.0*deg - triangleThetaAngle;
+     fDetectorAngles[6][0]    = 180.0*deg - triangleThetaAngle;
+     fDetectorAngles[7][0]    = 180.0*deg - triangleThetaAngle;
+     // phi
+     fDetectorAngles[0][1]    = 22.5*deg;
+     fDetectorAngles[1][1]    = 112.5*deg;
+     fDetectorAngles[2][1]    = 202.5*deg;
+     fDetectorAngles[3][1]    = 292.5*deg;
+     fDetectorAngles[4][1]    = 22.5*deg;
+     fDetectorAngles[5][1]    = 112.5*deg;
+     fDetectorAngles[6][1]    = 202.5*deg;
+     fDetectorAngles[7][1]    = 292.5*deg;
+     // yaw (alpha)
+     fDetectorAngles[0][2]    = 0.0*deg;
+     fDetectorAngles[1][2]    = 0.0*deg;
+     fDetectorAngles[2][2]    = 0.0*deg;
+     fDetectorAngles[3][2]    = 0.0*deg;
+     fDetectorAngles[4][2]    = 0.0*deg;
+     fDetectorAngles[5][2]    = 0.0*deg;
+     fDetectorAngles[6][2]    = 0.0*deg;
+     fDetectorAngles[7][2]    = 0.0*deg;
+     // pitch (beta)
+     fDetectorAngles[0][3]    = triangleThetaAngle;
+     fDetectorAngles[1][3]    = triangleThetaAngle;
+     fDetectorAngles[2][3]    = triangleThetaAngle;
+     fDetectorAngles[3][3]    = triangleThetaAngle;
+     fDetectorAngles[4][3]    = 180.0*deg - triangleThetaAngle;
+     fDetectorAngles[5][3]    = 180.0*deg - triangleThetaAngle;
+     fDetectorAngles[6][3]    = 180.0*deg - triangleThetaAngle;
+     fDetectorAngles[7][3]    = 180.0*deg - triangleThetaAngle;
+     // roll (gamma)
+     fDetectorAngles[0][4]    = 22.5*deg;
+     fDetectorAngles[1][4]    = 112.5*deg;
+     fDetectorAngles[2][4]    = 202.5*deg;
+     fDetectorAngles[3][4]    = 292.5*deg;
+     fDetectorAngles[4][4]    = 22.5*deg;
+     fDetectorAngles[5][4]    = 112.5*deg;
+     fDetectorAngles[6][4]    = 202.5*deg;
+     fDetectorAngles[7][4]    = 292.5*deg;
 }
 
 ApparatusSourceHolder::~ApparatusSourceHolder() {
     // LogicalVolumes
     delete fCeramicPelletLog;
-    delete fDelrinSphereLog;
-    delete fDelrinSupportLog;
+    delete fSourceSphereLog;
+    delete fSourceSupportLog;
 }
 
 G4int ApparatusSourceHolder::Build() {
@@ -202,10 +208,10 @@ G4int ApparatusSourceHolder::Build() {
 
     G4cout << "BuildPelletVolume" << G4endl;
     BuildCeramicPelletVolume();
-    G4cout << "BuildDelrinSphereVolume" << G4endl;
-    BuildDelrinSphereVolume();
-    G4cout << "BuildDelrinSupportVolume" << G4endl;
-    BuildDelrinSupportVolume();
+    G4cout << "BuildSourceSphereVolume" << G4endl;
+    BuildSourceSphereVolume();
+    G4cout << "BuildSourceSupportVolume" << G4endl;
+    BuildSourceSupportVolume();
 
     return 1;
 }
@@ -292,9 +298,9 @@ G4int ApparatusSourceHolder::BuildCeramicPelletVolume() {
     G4Tubs* pellet = BuildCeramicPellet();
 
     // Define rotation and movement objects
-    G4ThreeVector direction 	= G4ThreeVector(0,0,1);
-    G4double zPosition		    = .051*2.54*cm; 
-    G4ThreeVector move 		    = zPosition * direction;
+    G4ThreeVector direction   = G4ThreeVector(0,0,1);
+    G4double zPosition         = .051*2.54*cm; 
+    G4ThreeVector move         = zPosition * direction;
     G4RotationMatrix* rotate    = new G4RotationMatrix;
 
     //logical volume
@@ -308,15 +314,15 @@ G4int ApparatusSourceHolder::BuildCeramicPelletVolume() {
     return 1;
 }
 
-G4int ApparatusSourceHolder::BuildDelrinSphereVolume() {
+G4int ApparatusSourceHolder::BuildSourceSphereVolume() {
     G4Material* material = fSphereMaterial;
     if( !material ) {
-        G4cout << " ----> Material " << fSphereMaterial << " not found, cannot build the Delrin Sphere! " << G4endl;
+        G4cout << " ----> Material " << fSphereMaterial << " not found, cannot build the source holder sphere! " << G4endl;
         return 0;
     }
 
     // Set visualization attributes
-    G4VisAttributes* visAtt = new G4VisAttributes(G4Colour(1., 1., 1.0));
+    G4VisAttributes* visAtt = new G4VisAttributes(G4Colour(52., 61., 87.));
     visAtt->SetVisibility(true);
 //    visAtt->SetForceAuxEdgeVisible(true);
 
@@ -328,34 +334,37 @@ G4int ApparatusSourceHolder::BuildDelrinSphereVolume() {
     /////////////////////////////////////////////////////////////////////
     // Build and Subtract Geometries
     /////////////////////////////////////////////////////////////////////
-    G4Sphere* sphere = BuildDelrinSphere();
-    G4Tubs* cyc = BuildCeramicPellet();
+    sourceSphere = BuildSourceSphere();
+    cyc          = BuildCeramicPellet();
 
     G4ThreeVector fTrans(0.,0.,0.051*2.54*cm);
-    G4RotationMatrix* fRot = new G4RotationMatrix;
-
-    G4SubtractionSolid* delSphere = new G4SubtractionSolid("delSphere",sphere, cyc, fRot, fTrans);
 
     //logical volume
-    if( fDelrinSphereLog == NULL ) {
-        fDelrinSphereLog = new G4LogicalVolume(delSphere, material, "DelrinSphereLog", 0, 0, 0);
-        fDelrinSphereLog->SetVisAttributes(visAtt);
+    if( fSourceSphereLog == NULL ) {
+
+        // First source (pre July 2019) with ceramic backing
+        //delSphere = new G4SubtractionSolid("delSphere",sphere, cyc, fRot, fTrans);
+        //fSourceSphereLog = new G4LogicalVolume(delSphere, material, "SourceSphereLog", 0, 0, 0);
+        
+        // Second source (post July 2019) without ceramic backing
+        fSourceSphereLog = new G4LogicalVolume(sourceSphere, material, "SourceSphereLog", 0, 0, 0);
+        fSourceSphereLog->SetVisAttributes(visAtt);
     }
 
     // place front canLid
-    zPosition 	= 0;
-    move 		= zPosition * direction;
+    zPosition  = 0;
+    move       = zPosition * direction;
 
     //add physical cylinder
-    fAssembly->AddPlacedVolume(fDelrinSphereLog, move, rotate);
+    fAssembly->AddPlacedVolume(fSourceSphereLog, move, rotate);
 
     return 1;
 }
 
-G4int ApparatusSourceHolder::BuildDelrinSupportVolume() {
+G4int ApparatusSourceHolder::BuildSourceSupportVolume() {
     G4Material* material = fSupportMaterial;
     if( !material ) {
-        G4cout << " ----> Material " << fSupportMaterial << " not found, cannot build the Delrin Support Structure! " << G4endl;
+        G4cout << " ----> Material " << fSupportMaterial << " not found, cannot build the Source Support Structure! " << G4endl;
         return 0;
     }
 
@@ -371,9 +380,9 @@ G4int ApparatusSourceHolder::BuildDelrinSupportVolume() {
     /////////////////////////////////////////////////////////////////////
     // Build and Subtract Geometries
     /////////////////////////////////////////////////////////////////////
-    G4Tubs* lrgCyc = BuildLargeDelrinCyclinder();
-    G4Tubs* medCyc = BuildMediumDelrinCyclinder();
-    G4Tubs* smlCyc = BuildSmallDelrinCyclinder();
+    G4Tubs* lrgCyc = BuildLargeSourceCyclinder();
+    G4Tubs* medCyc = BuildMediumSourceCyclinder();
+    G4Tubs* smlCyc = BuildSmallSourceCyclinder();
 
     G4ThreeVector fLrgMedTrans(0.,0.,-11.6*2.54*cm);
     G4RotationMatrix* fRot = new G4RotationMatrix;
@@ -387,17 +396,17 @@ G4int ApparatusSourceHolder::BuildDelrinSupportVolume() {
     G4UnionSolid* totalSupport = new G4UnionSolid("TotalSupport",lrgMedSupport, smlCyc, fRotZ, fSmlMedTrans);
 
     //logical volume
-    if( fDelrinSupportLog == NULL ) {
-        fDelrinSupportLog = new G4LogicalVolume(totalSupport, material, "DelrinSupportLog", 0, 0, 0);
-        fDelrinSupportLog->SetVisAttributes(visAtt);
+    if( fSourceSupportLog == NULL ) {
+        fSourceSupportLog = new G4LogicalVolume(totalSupport, material, "SourceSupportLog", 0, 0, 0);
+        fSourceSupportLog->SetVisAttributes(visAtt);
     }
 
     // place front canLid
-    zPosition 	= 18.85*2.54*cm;
-    move 		= zPosition * direction;
+    zPosition  = 18.85*2.54*cm;
+    move       = zPosition * direction;
 
     //add physical cylinder
-    fAssembly->AddPlacedVolume(fDelrinSupportLog, move, rotate);
+    fAssembly->AddPlacedVolume(fSourceSupportLog, move, rotate);
 
     return 1;
 }
@@ -418,59 +427,59 @@ G4Tubs* ApparatusSourceHolder::BuildCeramicPellet() {
 }//end ::BuildPellet
 
 
-G4Sphere* ApparatusSourceHolder::BuildDelrinSphere() {
+G4Sphere* ApparatusSourceHolder::BuildSourceSphere() {
     G4double startPhi   = 0.0;
     G4double endPhi     = fullPhi;
     G4double startTheta = 0.0;
     G4double endTheta   = fullTheta;
     
 
-    G4double innerRadius 	= fSphereInnerRadius;
-    G4double outerRadius 	= fSphereOuterRadius;
+    G4double innerRadius   = fSphereInnerRadius;
+    G4double outerRadius   = fSphereOuterRadius;
 
     G4Sphere* sphere = new G4Sphere("Sphere", innerRadius, outerRadius, startPhi, endPhi, startTheta, endTheta);
 
     return sphere;
 }//end ::BuildAluminumCan
 
-G4Tubs* ApparatusSourceHolder::BuildLargeDelrinCyclinder() {
+G4Tubs* ApparatusSourceHolder::BuildLargeSourceCyclinder() {
     G4double startPhi   = 0.0;
     G4double endPhi     = fullPhi;
 
-    G4double innerRadius 	= fLargeCyclinderInnerRadius;
-    G4double outerRadius 	= fLargeCyclinderOuterRadius;
+    G4double innerRadius   = fLargeCyclinderInnerRadius;
+    G4double outerRadius   = fLargeCyclinderOuterRadius;
     G4double halfLengthZ    = fLargeCyclinderLength/2.0;
 
     G4Tubs* largeCyclinder = new G4Tubs("LargeCyclinder", innerRadius, outerRadius, halfLengthZ, startPhi, endPhi);
 
     return largeCyclinder;
-}//end ::BuildLargeDelrinCyclinder
+}//end ::BuildLargeSourceCyclinder
 
-G4Tubs* ApparatusSourceHolder::BuildMediumDelrinCyclinder() {
+G4Tubs* ApparatusSourceHolder::BuildMediumSourceCyclinder() {
     G4double startPhi   = 0.0;
     G4double endPhi     = fullPhi;
 
-    G4double innerRadius 	= fMediumCyclinderInnerRadius;
-    G4double outerRadius 	= fMediumCyclinderOuterRadius;
+    G4double innerRadius   = fMediumCyclinderInnerRadius;
+    G4double outerRadius   = fMediumCyclinderOuterRadius;
     G4double halfLengthZ    = fMediumCyclinderLength;
 
     G4Tubs* medCyclinder = new G4Tubs("MediumCyclinder", innerRadius, outerRadius, halfLengthZ, startPhi, endPhi);
 
     return medCyclinder;
-}//end ::BuildMediumDelrinCyclinder
+}//end ::BuildMediumSourceCyclinder
 
-G4Tubs* ApparatusSourceHolder::BuildSmallDelrinCyclinder() {
+G4Tubs* ApparatusSourceHolder::BuildSmallSourceCyclinder() {
     G4double startPhi   = 0.0;
     G4double endPhi     = fullPhi;
 
-    G4double innerRadius 	= fSmallCyclinderInnerRadius;
-    G4double outerRadius 	= fSmallCyclinderOuterRadius;
+    G4double innerRadius   = fSmallCyclinderInnerRadius;
+    G4double outerRadius   = fSmallCyclinderOuterRadius;
     G4double halfLengthZ    = fSmallCyclinderLength;
 
     G4Tubs* smallCyclinder = new G4Tubs("SmallCyclinder", innerRadius, outerRadius, halfLengthZ, startPhi, endPhi);
 
     return smallCyclinder;
-}//end ::BuildSmallDelrinCyclinder
+}//end ::BuildSmallSourceCyclinder
 
 //Calculate a direction vector from spherical theta & phi components
 G4ThreeVector ApparatusSourceHolder::GetDirectionXYZ(G4double theta, G4double phi) {

@@ -89,7 +89,10 @@
 #include "Apparatus8piVacuumChamber.hh"
 #include "Apparatus8piVacuumChamberAuxMatShell.hh"
 #include "ApparatusGriffinStructure.hh"
+// begin CRN
 #include "ApparatusSourceHolder.hh"
+#include "ApparatusXRayAbsorbers.hh"
+//end CRN
 
 #include "DetectionSystemBox.hh" // New file
 #include "DetectionSystemGrid.hh"
@@ -134,10 +137,10 @@ DetectorConstruction::DetectorConstruction() :
    fSetGenericTargetPosition   = false;
 
    // Field Box
-   fSetFieldBoxMaterial= false;//think this has been removed 17/8
-   fSetFieldBoxDimensions= false;
-   fSetFieldBoxPosition= false;
-   fSetFieldBoxMagneticField= false;
+   fSetFieldBoxMaterial      = false;//think this has been removed 17/8
+   fSetFieldBoxDimensions    = false;
+   fSetFieldBoxPosition      = false;
+   fSetFieldBoxMagneticField = false;
 
    // parameters to suppress:
 
@@ -147,12 +150,12 @@ DetectorConstruction::DetectorConstruction() :
 
    fUseTigressPositions = false;
 
-   fDetectorShieldSelect = 1 ; // Include suppressors by default.
+   fDetectorShieldSelect        = 1 ; // Include suppressors by default.
    fExtensionSuppressorLocation = 0 ; // Back by default (Detector Forward)
-   fHevimetSelector = 0 ; // Chooses whether or not to include a hevimet
+   fHevimetSelector             = 0 ; // Chooses whether or not to include a hevimet
 
-   fCustomDetectorNumber      = 1 ; // detNum
-   fCustomDetectorPosition  = 1 ; // posNum
+   fCustomDetectorNumber   = 1 ; // detNum
+   fCustomDetectorPosition = 1 ; // posNum
 
    // create commands for interactive definition
 
@@ -402,6 +405,7 @@ void DetectorConstruction::AddApparatusGriffinStructure(G4int selector) {
    pApparatusGriffinStructure->Place(fLogicWorld, selector);
 }
 
+// begin CRN
 void DetectorConstruction::AddApparatusSourceHolder(G4int position) {
     // Place source holder in position <position>
     ApparatusSourceHolder *pApparatusSourceHolder = new ApparatusSourceHolder();
@@ -410,6 +414,14 @@ void DetectorConstruction::AddApparatusSourceHolder(G4int position) {
     pApparatusSourceHolder->Place(fLogicWorld, position);
 }
 
+void DetectorConstruction::AddApparatusXRayAbsorbers(G4int selector) {
+    // create Ta-Sn-Cu X-ray absorbers for face of clovers
+    ApparatusXRayAbsorbers *pApparatusXRayAbsorbers = new ApparatusXRayAbsorbers();
+    pApparatusXRayAbsorbers->Build();
+
+    pApparatusXRayAbsorbers->Place(fLogicWorld, selector);
+}
+//end CRN
 
 void DetectorConstruction::AddDetectionSystemSodiumIodide(G4int ndet) {
    if(fLogicWorld == nullptr) {
