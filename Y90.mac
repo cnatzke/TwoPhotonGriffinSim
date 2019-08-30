@@ -70,8 +70,8 @@
 # adds TaSnCu X-Ray absorbers
 # 0 = Single absorber @ position 0
 # 1 = All absorbers
-# 2 = Pos 1-16 absorbers
-/DetSys/app/addXRayAbsorbers 2
+# 2 = Pos 1-11 absorbers
+/DetSys/app/addXRayAbsorbers 1
 ###################### LaBr3 DETECTOR PROPERTIES ########################################
 #addLanthanumBromide #_of_dets radial_pos_in_cm null
 #addAncillaryBGO #_of_dets radial_pos_in_cm include_hevimet
