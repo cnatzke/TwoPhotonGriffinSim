@@ -21,9 +21,10 @@
 #includeGriffinHevimet 0 (no)
 #includeGriffinHevimet 1 (yes)
 #########################################################################################
-/DetSys/det/SetCustomShieldsPresent 0
+/DetSys/det/SetCustomShieldsPresent 1
 /DetSys/det/SetCustomRadialDistance 11 cm
-/DetSys/det/SetCustomExtensionSuppressorLocation 0
+# setting shield position 
+/DetSys/det/SetCustomExtensionSuppressorLocation 1
 /DetSys/det/includeGriffinHevimet 0
 
 /DetSys/det/SetCustomDeadLayer 1 1 0
@@ -62,19 +63,20 @@
 #/DetSys/det/addDescant 70
 
 ###################### GRIFFIN SOURCE HOLDER PROPERTIES #################################
-#addSourceHolder source_holder_position radial_pos_in_cm null
-/DetSys/app/addSourceHolder 2 16.5 0
+#addSourceHolder source_holder_position 
+/DetSys/app/addSourceHolder 2
 
+###################### GRIFFIN X-RAY ABSORBERS PROPERTIES ###############################
+# adds TaSnCu X-Ray absorbers
+# 0 = Single absorber @ position 0
+# 1 = All absorbers
+# 2 = Pos 1-16 absorbers
+/DetSys/app/addXRayAbsorbers 2
 ###################### LaBr3 DETECTOR PROPERTIES ########################################
 #addLanthanumBromide #_of_dets radial_pos_in_cm null
 #addAncillaryBGO #_of_dets radial_pos_in_cm include_hevimet
 #/DetSys/det/addLanthanumBromide 8 16.5 0
 #/DetSys/det/addAncillaryBGO 8 16.5 0
-
-###################### SCEPTAR and Others ###############################################
-#/DetSys/det/addSceptar 20
-#/DetSys/app/add8piVacuumChamber
-#/DetSys/app/add8piVacuumChamberAuxMatShell 20 mm
 
 ###################### Griffin Structure ###############################################
 #/DetSys/app/addGriffinStructure 0 (include both up- and down-stream halves)
@@ -91,36 +93,17 @@
 ###################### RUN VRML VIS #####################################################
 #/control/execute vis.mac
 
-###################### USER DEFINED RAD DECAY FILES #####################################
-#/grdm/setRadioactiveDecayFile 27 60  UserData/UserRadData_z27.a60
-#/grdm/setPhotoEvaporationFile 28 60  UserData/UserEvapData_z28.a60
-#
-# Angular Correlations
-#/grdm/setMultipoleFile 28 60 UserData/UserMultipoleData_z28.a60
-#/grdm/setMultipoleGroundStateSpinAngularMomentum 28 60 0
+########## USER DECAY FILES #################
+/grdm/setRadioactiveDecayFile 39 90  UserData/y90Decay.dat
+/grdm/setRadioactiveDecayFile 40 90  UserData/zr90Decay.dat
+/grdm/setPhotoEvaporationFile 40 90  UserData/zr90Evap.dat
 
 ###################### rad decay, eff sim, labr3 decay sim ##############################
-/gps/particle ion
-/gps/ion 38 90
+/gun/particle ion
+/gun/ion 39 90
 # Set decay limits (aMin, aMax, zMin, zMax)
 /grdm/nucleusLimits 90 90 38 40
 
-###################### USER DEFINED BEAM GEOMETRY ######## ##############################
-
-#Isomorphic Planar Emission
-/gps/pos/type Plane
-/gps/pos/shape Circle
-/gps/pos/radius 6.5 mm
-
-# 2D Gaussian Beam w/ FWTM of 2.5mm
-#/gps/pos/type Beam
-#/gps/pos/centre 0. 0. 0. cm
-#/gps/pos/sigma_r 2.32995 mm
-
-
-#/DetSys/gps/particle neutron
-#/DetSys/gps/efficiencyEnergy 12345 keV
-
 ###################### BEAM ON ##########################################################
 
-/run/beamOn 100000000
+/run/beamOn 1000
