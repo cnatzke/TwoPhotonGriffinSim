@@ -1,5 +1,6 @@
 #include "DetectorConstruction.hh"
 #include "DetectorMessenger.hh"
+#include "PrimaryGeneratorMessenger.hh"//PGM
 
 #include "Global.hh"
 
@@ -63,7 +64,7 @@ ApparatusSourceHolder::ApparatusSourceHolder() :
     elements.push_back("O");    natoms.push_back(3);
 
     density = 1.31 * g/cm3;
-    G4Material* Peek = nistMan->ConstructNewMaterial("Peek", elements, natoms, density);
+    //G4Material* Peek = nistMan->ConstructNewMaterial("Peek", elements, natoms, density);
 
     elements.clear();
     natoms.clear();
@@ -98,7 +99,7 @@ ApparatusSourceHolder::ApparatusSourceHolder() :
     fSmallCyclinderOuterRadius  = 0.315*2.54*cm;
 
     fPelletMaterial             = WC;
-    fSphereMaterial             = Peek;
+    fSphereMaterial             = "Peek";
     fSupportMaterial            = delrin;
     
     // Left over lengths from LaBr Detector file, 
@@ -280,14 +281,15 @@ G4int ApparatusSourceHolder::BuildCeramicPelletVolume() {
 }
 
 G4int ApparatusSourceHolder::BuildSourceSphereVolume() {
-    G4Material* material = fSphereMaterial;
+    //G4Material* material = fSphereMaterial;
+    G4Material* material = G4Material::GetMaterial(fSphereMaterial);
     if( !material ) {
         G4cout << " ----> Material " << fSphereMaterial << " not found, cannot build the source holder sphere! " << G4endl;
         return 0;
     }
 
     // Set visualization attributes
-    G4VisAttributes* visAtt = new G4VisAttributes(G4Colour(52., 61., 87.));
+    G4VisAttributes* visAtt = new G4VisAttributes(G4Colour(0.5, 0.5, 0.));
     visAtt->SetVisibility(true);
 //    visAtt->SetForceAuxEdgeVisible(true);
 

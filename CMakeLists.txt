@@ -93,7 +93,7 @@ target_link_libraries(Griffinv10 ${Geant4_LIBRARIES} ${HBOOK_LIBRARIES})
 # relies on these scripts being in the current working directory.
 #
 set(Griffinv10_SCRIPTS
-    Griffinv10.in run.mac vis.mac
+    Griffinv10.in run.mac vis.mac Y90.mac
   )
 
 foreach(_script ${Griffinv10_SCRIPTS})

@@ -41,6 +41,7 @@
 #include "globals.hh"
 
 class G4AssemblyVolume;
+class G4Material;
 
 class ApparatusSourceHolder
 {
@@ -89,7 +90,7 @@ private:
     G4int fNumberOfSegments;
 
     G4Material* fPelletMaterial;
-    G4Material* fSphereMaterial;
+    G4String fSphereMaterial;
     G4Material* fSupportMaterial;
 
     G4double fullPhi;
